@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta
+  name="viewport"
+  content="
+    width=device-width,
+    initial-scale=1.0,
+    maximum-scale=1.0,
+    user-scalable=no
+  "
+/>
+
+<title>Playtime Insights Banner</title>
+
+<style>
+
+html,
+body{
+  margin:0;
+  width:100%;
+  height:100%;
+
+  overflow:hidden;
+
+  background:#000000;
+  color:white;
+
+  font-family:Arial, sans-serif;
+}
+
+/* PAGE */
+
+.page{
+  padding:0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* SYSTEM NOTIFICATION BANNER */
+
+.insightBanner {
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 6px;
+  padding: 4px 10px; 
+  display: flex;
+  align-items: center; 
+  transition: all 0.3s ease;
+  animation: slideIn 0.4s ease-out;
+  
+  /* Exact dimensions */
+  width: 398px;
+  height: 41px;
+  box-sizing: border-box;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Banner States */
+.insightBanner.disabled {
+  border-color: #000000;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.insightContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.insightTitle {
+  font-size: 11.5px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.insightBanner.disabled .insightTitle { 
+  color: #888; 
+}
+
+.insightDesc {
+  font-size: 11px;
+  color: #ccc;
+  white-space: nowrap;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <div class="insightBanner disabled" id="insightBanner">
+    <div class="insightContent" id="insightContent">
+      <div class="insightTitle" id="insightTitle">Playtime isn't set up!</div>
+      <div class="insightDesc" id="insightDesc">Please enable playtime in settings.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* 🔄 AUTO FONT-SIZE CALCULATOR ENGINE */
+function adjustFontSize() {
+  const container = document.getElementById("insightBanner");
+  const content = document.getElementById("insightContent");
+  const title = document.getElementById("insightTitle");
+  const desc = document.getElementById("insightDesc");
+
+  title.style.fontSize = "11.5px";
+  desc.style.fontSize = "11px";
+
+  const maxAvailableWidth = container.clientWidth - 20; 
+  
+  let currentTitleSize = 11.5;
+  let currentDescSize = 11;
+
+  while (content.scrollWidth > maxAvailableWidth && currentDescSize > 7) {
+    currentTitleSize -= 0.25;
+    currentDescSize -= 0.25;
+    title.style.fontSize = currentTitleSize + "px";
+    desc.style.fontSize = currentDescSize + "px";
+  }
+}
+
+// Run layout verification immediately on mount
+adjustFontSize();
+window.addEventListener('resize', adjustFontSize);
+</script>
+
+</body>
+</html>
